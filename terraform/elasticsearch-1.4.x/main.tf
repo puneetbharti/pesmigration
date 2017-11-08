@@ -41,9 +41,7 @@ resource "aws_route53_record" "elasticsearch" {
   records = ["${element(aws_instance.elasticsearch.*.public_ip, count.index)}"]
 }
 
-
-
-resource "null_resource" "elasticsearch" {
+resource "null_resource" "inventory_base" {
   triggers {
     cluster_instance_ids = "${join(",", aws_instance.elasticsearch.*.id)}"
   }
@@ -53,13 +51,44 @@ resource "null_resource" "elasticsearch" {
   provisioner "local-exec" {
     command = "echo '[local]\n localhost\n [all:vars]\n ansible_ssh_user=ubuntu \n ansible_ssh_private_key_file=~/.ssh/${var.key_name}.pem \n [${var.cluster_vertical}]' > ${path.module}/../../ansible/inventories/${var.cluster_vertical}_${var.cluster_app}.ini"
   }
+}
 
+resource "null_resource" "inventory" {
+  triggers {
+    cluster_instance_ids = "${join(",", aws_instance.elasticsearch.*.id)}"
+  }
+  triggers {
+    cluster_instance_ids = "${join(",", aws_route53_record.elasticsearch.*.id)}"
+  }
+  triggers {
+    cluster_instance_ids = "${join(",", null_resource.inventory_base.*.id)}"
+  }
+  count = "${var.num_instances}"
+
+  
   provisioner "local-exec" {
     command = "echo ${format("${var.name_prefix}${var.cluster_vertical}es%02d.${var.route53_zone}", count.index + 1)} >> ${path.module}/../../ansible/inventories/${var.cluster_vertical}_${var.cluster_app}.ini"
   }
+}
+
+resource "null_resource" "elasticsearch" {
+  triggers {
+    cluster_instance_ids = "${join(",", aws_instance.elasticsearch.*.id)}"
+  }
+  triggers {
+    cluster_instance_ids = "${join(",", aws_route53_record.elasticsearch.*.id)}"
+  }
+  
+  triggers {
+    cluster_instance_ids = "${join(",", null_resource.inventory_base.*.id)}"
+  }
+
+  triggers {
+    cluster_instance_ids = "${join(",", null_resource.inventory.*.id)}"
+  }
 
    provisioner "local-exec" {
-    command = "cd ${path.module}/../../ansible/ && ansible-playbook -e ANSIBLE_HOST_KEY_CHECKING=False -i inventories/${var.cluster_vertical}_${var.cluster_app}.ini setup.yml --extra-vars='hosts=${var.cluster_vertical} vertical_name=${var.cluster_vertical}'"
+    command = "cd ${path.module}/../../ansible/ && ansible-playbook -e 'ANSIBLE_HOST_KEY_CHECKING=False' -i inventories/${var.cluster_vertical}_${var.cluster_app}.ini elasticsearch.yml --extra-vars='hosts=${var.cluster_vertical} vertical_name=${var.cluster_vertical}'"
   }
 }
 

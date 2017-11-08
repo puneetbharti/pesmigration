@@ -4,7 +4,7 @@
 //
 
 variable "num_instances" {
-  default = 1
+  default = 3
 }
 
 variable "name_prefix" {
@@ -38,7 +38,7 @@ variable "key_name" {
 }
 
 variable "security_groups" {
-  default = ["sg-0c45da64"]
+  default = ["sg-0c45da64", "sg-165b0e7e"]
 }
 
 //
