@@ -1,0 +1,14 @@
+---
+- name: Configure ec2 instance
+  hosts: "{{hosts}}"
+  remote_user: ubuntu
+  become: yes
+  gather_facts: False
+
+  roles:
+    - hostname
+    - ntp
+    - java
+    - elasticsearch
+
+    

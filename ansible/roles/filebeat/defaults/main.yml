@@ -1,0 +1,43 @@
+---
+# `filebeat_config` is templated directly into filebeat.yml for the config.
+# You are expected to override this variable, as these configurations are
+# only suited for development purposes.
+# See https://github.com/elastic/filebeat/blob/master/etc/filebeat.yml for
+# an exhaustive list of configurations.
+filebeat_config:
+  filebeat:
+    prospectors:
+      - paths:
+          - /srv/{{ hosts }}/src/logs/*.log
+          - /home/travel/.pm2/logs/*.log
+          - /var/log/travel/*.log
+        input_type: log
+        document_type: "{{ hosts }}"
+  output:
+    logstash:
+      hosts: ["172.17.2.119:5044"]
+      index: "{{ hosts }}"
+      tls:
+        certificate_authorities: ["/etc/filebeat/ca.crt"]
+        insecure: true
+    shipper:
+
+  logging:
+    to_syslog: true
+    level: error
+
+# The contents of this variable will be placed into the `filebeat_ca_path`
+# This should either be set to a string containing your CA certificate or
+# use a lookup plugin to retrieve it.
+#  ex:
+#   filebeat_ca_cert: "{{ lookup('file', '/path/to/ca.crt') }}"
+filebeat_ca_cert: "{{ lookup('file', 'files/filebeat/ca.crt') }}"
+# Path to which the above certificate will be uploaded
+filebeat_ca_path: /etc/filebeat/ca.crt
+
+# The installation state of the filebeat package, passed to the appropriate
+# packaging module (yum/apt) as the 'state'.
+# Set to 'latest' to upgrade.
+filebeat_package_state: present
+filebeat_gpg_url: https://packages.elastic.co/GPG-KEY-elasticsearch
+filebeat_apt_repo: "deb https://packages.elastic.co/beats/apt stable main"
