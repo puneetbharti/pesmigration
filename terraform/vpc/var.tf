@@ -6,17 +6,7 @@ variable "vpc_cidr" {
   default = "11.0.0.0/16"
 }
 
-variable "es_cluster_name" {
-  default = "plivoes"
-}
 
-variable "cluster_vertical" {
-  default = "plivo"
-}
-
-variable "es_cluster_role" {
-  default = "logging"
-}
 
 
 variable "key_name" {
@@ -29,6 +19,28 @@ variable "route53_zone" {
 
 variable "name_prefix" {
   default = "dl"
+}
+
+variable "availability_zones" {
+  default = ["ap-south-1a","ap-south-1b"]
+}
+#
+# AWS Es variables
+#
+variable "es_cluster_name" {
+  default = "plivoes"
+}
+
+variable "cluster_vertical" {
+  default = "plivo"
+}
+
+variable "es_cluster_role" {
+  default = "logging"
+}
+
+variable "es_instance_count" {
+  default = 3
 }
 
 # 

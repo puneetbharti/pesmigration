@@ -120,6 +120,13 @@ resource "aws_security_group" "aws_es_sg" {
     cidr_blocks = ["${var.vpc_cidr}"]
   }
 
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "aws_es_sg"
   }
@@ -132,7 +139,9 @@ resource "aws_elasticsearch_domain" "elasticsearch" {
     elasticsearch_version = "5.5"
     cluster_config {
         instance_type = "c4.large.elasticsearch"
+        instance_count= "${var.es_instance_count}"
     }
+    
     ebs_options {
         ebs_enabled = true,
         volume_type = "standard",
@@ -186,6 +195,13 @@ resource "aws_security_group" "bastion_sg" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
   }
 
   tags {

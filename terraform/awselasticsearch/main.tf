@@ -8,6 +8,7 @@ resource "aws_elasticsearch_domain" "elasticsearch" {
     cluster_config {
         instance_type = "c4.large.elasticsearch"
     }
+    instance_count= "${var.aws_es_instance_count}"
     ebs_options {
         ebs_enabled = true,
         volume_type = "standard",
