@@ -6,7 +6,7 @@ resource "aws_instance" "nginx" {
 
   instance_type = "${var.instance_type}"
 
-  ami = "${var.base_ami[count.index%2]}"
+  ami = "${var.base_ami}"
 
   key_name = "${var.key_name}"
 
@@ -41,7 +41,7 @@ resource "null_resource" "inventory_base" {
     cluster_instance_ids = "${join(",", aws_route53_record.nginx.*.id)}"
   }
   provisioner "local-exec" {
-    command = "echo '[local]\n localhost\n [all:vars]\n ansible_ssh_user=ubuntu \n ansible_ssh_private_key_file=~/.ssh/${var.key_name}.pem \n [${var.cluster_vertical}]' > ${path.module}/../../ansible/inventories/${var.cluster_vertical}_${var.cluster_app}.ini"
+    command = "echo '[local]\n localhost\n [all:vars]\n ansible_ssh_user=admin \n ansible_ssh_private_key_file=~/.ssh/${var.key_name}.pem \n [${var.cluster_vertical}]' > ${path.module}/../../ansible/inventories/${var.cluster_vertical}_${var.cluster_app}.ini"
   }
 }
 
@@ -82,7 +82,7 @@ resource "null_resource" "nginx" {
   }
 
    provisioner "local-exec" {
-    command = "cd ${path.module}/../../ansible/ && ansible-playbook -e 'ANSIBLE_HOST_KEY_CHECKING=False ansible_ssh_user=root' -i inventories/${var.cluster_vertical}_${var.cluster_app}.ini nginx.yml --extra-vars='hosts=${var.cluster_vertical} vertical_name=${var.cluster_vertical}'"
+    command = "cd ${path.module}/../../ansible/ && ansible-playbook -e 'ANSIBLE_HOST_KEY_CHECKING=False' -i inventories/${var.cluster_vertical}_${var.cluster_app}.ini nginx.yml --extra-vars='hosts=${var.cluster_vertical} vertical_name=${var.cluster_vertical}'"
   }
 }
 

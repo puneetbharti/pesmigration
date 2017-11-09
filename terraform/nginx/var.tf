@@ -4,7 +4,7 @@
 //
 
 variable "num_instances" {
-  default = 2
+  default = 1
 }
 
 variable "name_prefix" {
@@ -30,7 +30,7 @@ variable "instance_type" {
 }
 
 variable "base_ami" {
-  default = ["ami-3c374c53","ami-02aded6d"]
+  default = "ami-9a83f5f5"
 }
 
 variable "key_name" {
