@@ -1,0 +1,5 @@
+sudoers:
+  - name: "Puneet Bharti"
+    username: "puneet"
+    emp_id: "3011"
+    group: "root"

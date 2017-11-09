@@ -1,0 +1,19 @@
+# Create users
+- name: Creating sudo users
+  user: name="{{ item.username }}" comment="{{ item.name }}" uid="{{ item.emp_id }}" groups="{{ item.group }}" shell=/bin/bash state=present
+  with_items: "{{ sudoers }}"
+
+## copy ssh keys
+- name: Copy sudoers SSH Key
+  authorized_key: user="{{ item.username }}" key="{{ lookup('file', 'files/users/{{ item.username }}/id_rsa.pub') }}"
+  with_items: "{{ sudoers }}"
+
+# make passwordless login  
+- name: Add users with sudo permissions
+  template:
+    src: sudoers.j2
+    dest: "/etc/sudoers.d/sudoers_nopassword"
+    mode: 0440
+    owner: root
+    group: root
+  with_items: "{{ sudoers }}"
