@@ -214,7 +214,7 @@ resource "aws_instance" "bastion" {
 
   vpc_security_group_ids = ["${aws_security_group.bastion_sg.id}"]
 
-  depends_on = ["aws_elasticsearch_domain.elasticsearch"]
+  depends_on = ["aws_elasticsearch_domain.elasticsearch", "aws_eip.bastion"]
 
   tags {
     "Name" = "bastion.${var.route53_zone}"
