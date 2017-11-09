@@ -18,13 +18,6 @@ variable "es_cluster_role" {
   default = "logging"
 }
 
-variable "bastion_instance_type" {
-  default = "t2.medium"
-}
-
-variable "bastion_ami" {
-  default = "ami-3c374c53"
-}
 
 variable "key_name" {
   default = "mywpkey"
@@ -39,6 +32,17 @@ variable "name_prefix" {
 }
 
 # 
+# Bastion variables
+# 
+variable "bastion_instance_type" {
+  default = "t2.medium"
+}
+
+variable "bastion_ami" {
+  default = "ami-f87a3697"
+}
+
+# 
 # Nginx Variables
 # 
 variable "nginx_instance_count" {
@@ -48,7 +52,7 @@ variable "nginx_instance_type" {
   default = "t2.nano"
 }
 variable "nginx_ami" {
-  default = "ami-3c374c53"
+  default = ["ami-9d7438f2","ami-08773b67"]
 }
 
 # 
@@ -61,7 +65,7 @@ variable "logstash_instance_type" {
   default = "t2.medium"
 }
 variable "logstash_ami" {
-  default = "ami-3c374c53"
+  default = "ami-ff753990"
 }
 
 # 
@@ -74,7 +78,7 @@ variable "elasticsearch_instance_type" {
   default = "t2.nano"
 }
 variable "elasticsearch_ami" {
-  default = "ami-027c306d"
+  default = "ami-e0773b8f"
 }
 
 # 
@@ -87,6 +91,6 @@ variable "absystem_instance_type" {
   default = "t2.medium"
 }
 variable "absystem_ami" {
-  default = "ami-3c374c53"
+  default = "ami-f87a3697"
 }
 

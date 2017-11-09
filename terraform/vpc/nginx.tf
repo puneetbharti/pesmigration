@@ -34,7 +34,7 @@ resource "aws_instance" "nginx" {
 
   instance_type = "${var.nginx_instance_type}"
 
-  ami = "${var.nginx_ami}"
+  ami = "${var.nginx_ami[count.index%2]}"
 
   key_name = "${var.key_name}"
 
