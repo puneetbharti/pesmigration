@@ -211,7 +211,7 @@ resource "aws_instance" "bastion" {
   depends_on = ["aws_elasticsearch_domain.elasticsearch"]
 
   tags {
-    "Name" = "bastion"
+    "Name" = "bastion.${var.route53_zone}"
     "Role" = "gateway"
   }
 }
