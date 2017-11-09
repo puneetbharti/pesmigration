@@ -2,6 +2,10 @@ variable "aws_region" {
   default = "ap-south-1"
 }
 
+variable "vpc_cidr" {
+  default = "11.0.0.0/16"
+}
+
 variable "es_cluster_name" {
   default = "plivoes"
 }

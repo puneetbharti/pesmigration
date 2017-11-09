@@ -5,22 +5,31 @@
 # elasticsearch Security Group
 resource "aws_security_group" "elasticsearch_sg" {
   name        = "elasticsearch_sg"
-  description = "Allow all inbound traffic"
+  description = "elasticsearch security group"
   vpc_id = "${aws_vpc.plivo_vpc.id}"
 
   ingress {
-    from_port   = 0
+    from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = ["${aws_security_group.bastion_sg.id}"]
   }
 
   ingress {
-    from_port   = 80
-    to_port     = 8080
+    from_port   = 9300
+    to_port     = 9300
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    self        = true
   }
+
+  ingress {
+    from_port   = 9200
+    to_port     = 9200
+    protocol    = "tcp"
+    cidr_blocks = ["${var.vpc_cidr}"]
+  }
+
+  depends_on = ["aws_security_group.bastion_sg"]
 
   tags {
     Name = "elasticsearch_sg"

@@ -5,22 +5,24 @@
 # Nginx Security Group
 resource "aws_security_group" "nginx_sg" {
   name        = "nginx_sg"
-  description = "Allow all inbound traffic"
+  description = "nginx inbound traffic"
   vpc_id = "${aws_vpc.plivo_vpc.id}"
 
   ingress {
-    from_port   = 0
+    from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = ["${aws_security_group.bastion_sg.id}"]
   }
 
   ingress {
-    from_port   = 80
+    from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${var.vpc_cidr}"]
   }
+
+  depends_on = ["aws_security_group.bastion_sg"]
 
   tags {
     Name = "nginx_sg"

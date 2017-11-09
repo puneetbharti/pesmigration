@@ -5,23 +5,25 @@
 # logstash Security Group
 resource "aws_security_group" "logstash_sg" {
   name        = "logstash_sg"
-  description = "Allow all inbound traffic"
+  description = "logstash security group"
   vpc_id = "${aws_vpc.plivo_vpc.id}"
 
   ingress {
-    from_port   = 0
+    from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = ["${aws_security_group.bastion_sg.id}"]
   }
 
   ingress {
-    from_port   = 80
-    to_port     = 8080
+    from_port   = 5044
+    to_port     = 5044
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${var.vpc_cidr}"]
   }
 
+  depends_on = ["aws_security_group.bastion_sg"]
+  
   tags {
     Name = "logstash_sg"
   }
