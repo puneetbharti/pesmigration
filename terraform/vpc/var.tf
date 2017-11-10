@@ -67,6 +67,10 @@ variable "nginx_ami" {
   default = ["ami-9d7438f2","ami-08773b67"]
 }
 
+variable "es_proxy_ami" {
+  default = "ami-9d7438f2"
+}
+
 # 
 # Logstash Variables
 # 

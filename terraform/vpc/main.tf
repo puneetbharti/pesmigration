@@ -180,6 +180,20 @@ resource "aws_elasticsearch_domain" "elasticsearch" {
     }
 }
 
+##  Es domain route 53 
+# resource "aws_route53_record" "es_domain" {
+#   count= 1
+#   zone_id = "${aws_route53_zone.plivo_zone.zone_id}"
+#   name = "plivodashboard"
+#   type = "A"
+#   #ttl = "3"
+#   alias {
+#     name                   = "${aws_elasticsearch_domain.elasticsearch.domain_name}"
+#     zone_id                = "${aws_elasticsearch_domain.elasticsearch.zone_id}"
+#     evaluate_target_health = true
+#   }
+# }
+
 ##
 # Bastion
 ##
