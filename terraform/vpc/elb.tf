@@ -65,6 +65,17 @@ resource "aws_elb" "elasticsearch-1-4-2-cluster" {
   }
 }
 
+##  Elasticsearch 1.4.2 route 53 record 
+resource "aws_route53_record" "aws_internal_es_dns" {
+  count= 1
+  zone_id = "${aws_route53_zone.plivo_zone.zone_id}"
+  name = "oldes"
+  type = "CNAME"
+  ttl = "3"
+  records = ["${aws_elb.elasticsearch-1-4-2-cluster.dns_name}"]
+}
+
+
 # Elasticsearch elb security group
 resource "aws_security_group" "www_sg" {
   name        = "www_sg"

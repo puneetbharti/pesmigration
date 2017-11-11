@@ -84,7 +84,7 @@ resource "aws_elasticsearch_domain" "elasticsearch" {
 resource "aws_route53_record" "es_domain" {
   count= 1
   zone_id = "${aws_route53_zone.plivo_zone.zone_id}"
-  name = "plivodashboard"
+  name = "esdomain"
   type = "CNAME"
   ttl = "3"
   records = ["${aws_elasticsearch_domain.elasticsearch.endpoint}"]
