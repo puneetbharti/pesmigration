@@ -31,7 +31,7 @@ resource "aws_security_group" "aws_internal_es_sg" {
 # elasticsearch elb
 resource "aws_elb" "elasticsearch-1-4-2-cluster" {
   name               = "elasticsearch-1-4-2-cluster"
-  subnets = ["${aws_subnet.subnet_ap_south_1a.id}"]
+  subnets = ["${aws_subnet.subnet_ap_south_1b.id}"]
   security_groups =  ["${aws_security_group.aws_internal_es_sg.id}"]
 
   listener {
