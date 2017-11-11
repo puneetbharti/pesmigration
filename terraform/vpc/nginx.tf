@@ -58,7 +58,10 @@ resource "aws_instance" "nginx" {
     "Role" = "proxy"
     "Cluster" = "nginx-proxy"
   }
+  depends_on = ["aws_elasticsearch_domain.elasticsearch", "aws_eip.bastion"]
 }
+
+
 
 # Nginx Route 53 for nginx 
 resource "aws_route53_record" "nginx" {
@@ -86,6 +89,8 @@ resource "aws_instance" "es_proxy" {
   subnet_id = "${aws_subnet.subnet_ap_south_1b.id}"
 
   vpc_security_group_ids = ["${aws_security_group.nginx_sg.id}"]
+
+  depends_on = ["aws_elasticsearch_domain.elasticsearch", "aws_eip.bastion"]
 
   tags {
     "Name" = "${format("${var.name_prefix}${var.cluster_vertical}proxy%02d.${var.route53_zone}", count.index + 1)}"

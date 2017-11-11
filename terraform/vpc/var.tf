@@ -47,11 +47,11 @@ variable "es_instance_count" {
 # Bastion variables
 # 
 variable "bastion_instance_type" {
-  default = "t2.medium"
+  default = "t2.nano"
 }
 
 variable "bastion_ami" {
-  default = "ami-f87a3697"
+  default = "ami-e2cb878d"
 }
 
 # 
@@ -64,11 +64,11 @@ variable "nginx_instance_type" {
   default = "t2.nano"
 }
 variable "nginx_ami" {
-  default = ["ami-9d7438f2","ami-08773b67"]
+  default = ["ami-efcb8780","ami-edcb8782"]
 }
 
 variable "es_proxy_ami" {
-  default = "ami-9d7438f2"
+  default = "ami-eec28e81"
 }
 
 # 
@@ -81,7 +81,7 @@ variable "logstash_instance_type" {
   default = "t2.medium"
 }
 variable "logstash_ami" {
-  default = "ami-ff753990"
+  default = "ami-e1cb878e"
 }
 
 # 
@@ -94,7 +94,7 @@ variable "elasticsearch_instance_type" {
   default = "t2.nano"
 }
 variable "elasticsearch_ami" {
-  default = "ami-e0773b8f"
+  default = "ami-e0cb878f"
 }
 
 # 
@@ -107,6 +107,16 @@ variable "absystem_instance_type" {
   default = "t2.medium"
 }
 variable "absystem_ami" {
-  default = "ami-f87a3697"
+  default = "ami-e3cb878c"
 }
 
+###
+# Stage maintenance 
+#
+# terraform {
+#   backend "s3" {
+#     bucket = "tfplivo"
+#     key    = "staging/service/pesmigration/terraform.tfstate"
+#     region = "ap-south-1"
+#   }
+# }

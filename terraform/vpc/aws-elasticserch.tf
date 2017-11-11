@@ -89,3 +89,10 @@ resource "aws_route53_record" "es_domain" {
   ttl = "3"
   records = ["${aws_elasticsearch_domain.elasticsearch.endpoint}"]
 }
+
+## setting slow logs and cloudwatch 
+resource "null_resource" "aws_es" {
+  provisioner "local-exec" {
+    command = "python es_logs.py"
+  }
+}

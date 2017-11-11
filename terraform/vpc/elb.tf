@@ -104,7 +104,7 @@ resource "aws_security_group" "www_sg" {
 # frontend elb
 resource "aws_elb" "plivo-frontend" {
   name               = "plivo-frontend"
-  subnets = ["${aws_subnet.subnet_ap_south_1b.id}", "${aws_subnet.subnet_ap_south_1a.id}"]
+  subnets = ["${aws_subnet.subnet_ap_south_1a.id}", "${aws_subnet.public_subnet_1b.id}"]
   security_groups =  ["${aws_security_group.www_sg.id}"]
 
   listener {
@@ -118,7 +118,7 @@ resource "aws_elb" "plivo-frontend" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    target              = "HTTP:8080/"
+    target              = "HTTP:8080/ping"
     interval            = 30
   }
 
@@ -129,6 +129,8 @@ resource "aws_elb" "plivo-frontend" {
   connection_draining         = true
   connection_draining_timeout = 400
 
+  depends_on = ["aws_elasticsearch_domain.elasticsearch", "aws_eip.bastion", "aws_instance.nginx"]
+
   tags {
     "Vertical" = "${var.cluster_vertical}"
   }
@@ -137,7 +139,7 @@ resource "aws_elb" "plivo-frontend" {
 #plivo dashboard
 resource "aws_elb" "plivo-dashboard" {
   name               = "plivo-dashboard"
-  subnets = ["${aws_subnet.subnet_ap_south_1b.id}", "${aws_subnet.subnet_ap_south_1a.id}"]
+  subnets = ["${aws_subnet.subnet_ap_south_1a.id}", "${aws_subnet.public_subnet_1b.id}"]
   security_groups =  ["${aws_security_group.www_sg.id}"]
 
   listener {
@@ -151,7 +153,7 @@ resource "aws_elb" "plivo-dashboard" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    target              = "HTTP:8080/"
+    target              = "HTTP:8080/ping"
     interval            = 30
   }
 
@@ -161,6 +163,8 @@ resource "aws_elb" "plivo-dashboard" {
   idle_timeout                = 400
   connection_draining         = true
   connection_draining_timeout = 400
+
+  depends_on = ["aws_elasticsearch_domain.elasticsearch", "aws_eip.bastion", "aws_instance.es_proxy"]
 
   tags {
     "Vertical" = "${var.cluster_vertical}"

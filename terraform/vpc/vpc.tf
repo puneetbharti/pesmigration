@@ -26,10 +26,15 @@ resource "aws_route" "internet_access" {
   route_table_id         = "${aws_vpc.plivo_vpc.main_route_table_id}"
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = "${aws_internet_gateway.gw.id}"
-#   tags {
-#         Name = "Public route table"
-#   }
 }
+
+# Public route as way out to the internet
+resource "aws_route" "internet_access_1b" {
+  route_table_id         = "${aws_route_table.public_route_table_1b.id}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = "${aws_internet_gateway.gw.id}"
+}
+
 
 
 # Create the private route table
@@ -38,6 +43,15 @@ resource "aws_route_table" "private_route_table" {
 
     tags {
         Name = "Private route table"
+    }
+}
+
+# Create the public route table
+resource "aws_route_table" "public_route_table_1b" {
+    vpc_id = "${aws_vpc.plivo_vpc.id}"
+
+    tags {
+        Name = "Public route table 1b"
     }
 }
 
@@ -56,6 +70,17 @@ resource "aws_subnet" "subnet_ap_south_1a" {
   availability_zone = "ap-south-1a"
   tags = {
   	Name =  "Subnet az 1a"
+  }
+}
+
+# Create a Plublic subnet subnet in the AZ ap-south-1a
+resource "aws_subnet" "public_subnet_1b" {
+  vpc_id                  = "${aws_vpc.plivo_vpc.id}"
+  cidr_block              = "11.0.3.0/24"
+  map_public_ip_on_launch = true
+  availability_zone = "ap-south-1b"
+  tags = {
+  	Name =  "Public Subnet 1b"
   }
 }
 
@@ -93,6 +118,12 @@ resource "aws_route_table_association" "subnet_ap_south_1a_association" {
 resource "aws_route_table_association" "subnet_ap_south_1b_association" {
     subnet_id = "${aws_subnet.subnet_ap_south_1b.id}"
     route_table_id = "${aws_route_table.private_route_table.id}"
+}
+
+# Associate subnet subnet_ap_south_1b to public route table
+resource "aws_route_table_association" "public_subnet_1b_association" {
+    subnet_id = "${aws_subnet.public_subnet_1b.id}"
+    route_table_id = "${aws_route_table.public_route_table_1b.id}"
 }
 
 # route 53 zone 

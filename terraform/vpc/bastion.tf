@@ -68,6 +68,6 @@ resource "aws_route53_record" "bastion" {
   name = "bastion"
   type = "A"
   ttl = "300"
-  records = ["${element(aws_instance.bastion.*.public_ip, count.index)}"]
-  depends_on = ["aws_eip_association.bastion_eip_assoc"]
+  records = ["${aws_eip.bastion.public_ip}"]
+  #depends_on = ["aws_eip_association.bastion_eip_assoc"]
 }
