@@ -58,6 +58,7 @@ resource "aws_instance" "logstash" {
     "Role" = "proxy"
     "Cluster" = "logstash-proxy"
   }
+
 }
 
 # logstash Route 53 for logstash 
