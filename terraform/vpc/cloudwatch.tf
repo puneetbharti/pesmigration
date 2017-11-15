@@ -18,7 +18,7 @@ resource "aws_cloudwatch_metric_alarm" "aws_es_alarm" {
 }
 
 resource "aws_cloudwatch_log_group" "aws_es_log_group" {
-  name = "/aws/aes/domains/plivoes/search-logs"
+  name = "/aws/aes/domains/plivoes/singapore/search-logs"
 }
 
 resource "aws_cloudwatch_log_stream" "aws_es_log_stream" {
@@ -28,22 +28,10 @@ resource "aws_cloudwatch_log_stream" "aws_es_log_stream" {
 
 # resource "aws_iam_role" "aws_es_iam" {
 #   name = "aws_es_custom_role"
-#   assume_role_policy = <<EOF
-#   {
-#     "Version": "2012-10-17",
-#     "Statement": [
-#         {
-#         "Action": "sts:AssumeRole",
-#         "Principal": {
-#             "Service": "es.amazonaws.com"
-#         },
-#         "Effect": "Allow",
-#         "Sid": ""
-#         }
-#     ]
-#   }
+#   assume_role_policy =<<EOF
+#	{"Version": "2012-10-17","Statement": [{"Action": "sts:AssumeRole","Principal": {"Service": "es.amazonaws.com"},"Effect": "Allow","Sid": ""}]}
 #   EOF
-# }
+#}
 
 
 # resource "aws_cloudwatch_log_destination" "aws_es_log_destination" {

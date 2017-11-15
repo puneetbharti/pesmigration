@@ -57,18 +57,18 @@ resource "aws_elasticsearch_domain" "elasticsearch" {
 
     depends_on = ["aws_internet_gateway.gw", "aws_route_table_association.subnet_ap_south_1a_association"]
 
-    # access_policies = <<CONFIG
-    # {
-    # "Version": "2012-10-17",
-    # "Statement": [
-    #     {
-    #         "Action": "es:*",
-    #         "Principal": "*",
-    #         "Effect": "Allow"
-    #     }
-    # ]
-    # }
-    # CONFIG
+     access_policies = <<CONFIG
+     {
+     "Version": "2012-10-17",
+     "Statement": [
+         {
+             "Action": "es:*",
+             "Principal": "*",
+             "Effect": "Allow"
+         }
+     ]
+     }
+     CONFIG
 
     snapshot_options {
         automated_snapshot_start_hour = 23
@@ -91,8 +91,8 @@ resource "aws_route53_record" "es_domain" {
 }
 
 ## setting slow logs and cloudwatch 
-resource "null_resource" "aws_es" {
-  provisioner "local-exec" {
-    command = "python es_logs.py"
-  }
-}
+#resource "null_resource" "aws_es" {
+#  provisioner "local-exec" {
+#    command = "python es_logs.py ${aws_cloudwatch_log_group.aws_es_log_group.arn}"
+#  }
+#}

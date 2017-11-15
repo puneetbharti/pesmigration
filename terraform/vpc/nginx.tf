@@ -58,7 +58,7 @@ resource "aws_instance" "nginx" {
     "Role" = "proxy"
     "Cluster" = "nginx-proxy"
   }
-  depends_on = ["aws_elasticsearch_domain.elasticsearch", "aws_eip.bastion"]
+  depends_on = ["aws_elasticsearch_domain.elasticsearch", "aws_eip.bastion", "aws_route53_record.es_domain"]
 }
 
 

@@ -29,11 +29,11 @@ variable "availability_zones" {
 
 
 variable "key_name" {
-  default = "mywpkey"
+  default = "plivo"
 }
 
 variable "route53_zone" {
-  default = "test.plivo"
+  default = "singapore.plivo"
 }
 
 variable "name_prefix" {
@@ -68,7 +68,7 @@ variable "bastion_instance_type" {
 }
 
 variable "bastion_ami" {
-  default = "ami-e2cb878d"
+  default = "ami-24f7bd47"
 }
 
 # 
@@ -81,11 +81,11 @@ variable "nginx_instance_type" {
   default = "t2.nano"
 }
 variable "nginx_ami" {
-  default = ["ami-efcb8780","ami-edcb8782"]
+  default = ["ami-0df5bf6e","ami-2c15404f"]
 }
 
 variable "es_proxy_ami" {
-  default = "ami-eec28e81"
+  default = "ami-0bf4be68"
 }
 
 # 
@@ -98,7 +98,7 @@ variable "logstash_instance_type" {
   default = "t2.medium"
 }
 variable "logstash_ami" {
-  default = "ami-e1cb878e"
+  default = "ami-e2f7bd81"
 }
 
 # 
@@ -111,7 +111,7 @@ variable "elasticsearch_instance_type" {
   default = "t2.nano"
 }
 variable "elasticsearch_ami" {
-  default = "ami-e0cb878f"
+  default = "ami-66144105"
 }
 
 # 
@@ -124,11 +124,11 @@ variable "absystem_instance_type" {
   default = "t2.medium"
 }
 variable "absystem_ami" {
-  default = "ami-e3cb878c"
+  default = "ami-bdf4bede"
 }
 
 ###
-# Stage maintenance 
+# State maintenance 
 #
 # terraform {
 #   backend "s3" {
