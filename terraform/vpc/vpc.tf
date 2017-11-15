@@ -67,7 +67,7 @@ resource "aws_subnet" "subnet_ap_south_1a" {
   vpc_id                  = "${aws_vpc.plivo_vpc.id}"
   cidr_block              = "11.0.1.0/24"
   map_public_ip_on_launch = true
-  availability_zone = "ap-south-1a"
+  availability_zone = "${var.availability_zones[0]}"
   tags = {
   	Name =  "Subnet az 1a"
   }
@@ -78,7 +78,7 @@ resource "aws_subnet" "public_subnet_1b" {
   vpc_id                  = "${aws_vpc.plivo_vpc.id}"
   cidr_block              = "11.0.3.0/24"
   map_public_ip_on_launch = true
-  availability_zone = "ap-south-1b"
+  availability_zone = "ap-southeast-1b"
   tags = {
   	Name =  "Public Subnet 1b"
   }
@@ -88,7 +88,7 @@ resource "aws_subnet" "public_subnet_1b" {
 resource "aws_subnet" "subnet_ap_south_1b" {
   vpc_id                  = "${aws_vpc.plivo_vpc.id}"
   cidr_block              = "11.0.2.0/24"
-  availability_zone = "ap-south-1b"
+  availability_zone = "ap-southeast-1b"
   tags = {
   	Name =  "Subnet az 1b"
   }

@@ -1,11 +1,30 @@
 variable "aws_region" {
-  default = "ap-south-1"
+  default = "ap-southeast-1"
 }
 
 variable "vpc_cidr" {
   default = "11.0.0.0/16"
 }
 
+variable "public_subnet_1a_cidr" {
+  default = "11.0.1.0/16"
+}
+
+variable "public_subnet_1b_cidr" {
+  default = "11.0.2.0/16"
+}
+
+variable "private_subnet_1a_cidr" {
+  default = "11.0.3.0/16"
+}
+
+variable "private_subnet_1b_cidr" {
+  default = "11.0.4.0/16"
+}
+
+variable "availability_zones" {
+  default = ["ap-southeast-1a","ap-southeast-1b"]
+}
 
 
 
@@ -21,9 +40,7 @@ variable "name_prefix" {
   default = "dl"
 }
 
-variable "availability_zones" {
-  default = ["ap-south-1a","ap-south-1b"]
-}
+
 #
 # AWS Es variables
 #
