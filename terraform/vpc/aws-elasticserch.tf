@@ -91,8 +91,8 @@ resource "aws_route53_record" "es_domain" {
 }
 
 ## setting slow logs and cloudwatch 
-#resource "null_resource" "aws_es" {
-#  provisioner "local-exec" {
-#    command = "python es_logs.py ${aws_cloudwatch_log_group.aws_es_log_group.arn}"
-#  }
-#}
+resource "null_resource" "aws_es" {
+  provisioner "local-exec" {
+    command = "python es_logs.py ${aws_cloudwatch_log_group.aws_es_log_group.arn}"
+  }
+}

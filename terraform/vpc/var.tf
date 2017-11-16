@@ -33,7 +33,7 @@ variable "key_name" {
 }
 
 variable "route53_zone" {
-  default = "singapore.plivo"
+  default = "test.plivo"
 }
 
 variable "name_prefix" {
@@ -124,7 +124,7 @@ variable "absystem_instance_type" {
   default = "t2.medium"
 }
 variable "absystem_ami" {
-  default = "ami-bdf4bede"
+  default = "ami-233b6e40"
 }
 
 ###
